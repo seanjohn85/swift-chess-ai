@@ -6,4 +6,8 @@
 //  Copyright © 2017 JOHN KENNY. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class ChessGame: NSObject{
+    
+}
