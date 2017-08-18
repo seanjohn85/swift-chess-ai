@@ -39,18 +39,23 @@ class ViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         piceDragged = touches.first!.view as? UIChessPiece
+        print("touch \(piceDragged)")
         
         if piceDragged != nil{
             sourceOrgin = piceDragged.frame.origin
+            print("so \(sourceOrgin)")
         }
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if piceDragged != nil{
-            drag(piece: piceDragged, useGestureRec: pan)
-        }
+        print("end")
+        
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         //
+        if piceDragged != nil{
+            drag(piece: piceDragged!, useGestureRec: pan)
+            print("test")
+        }
     }
     
     
