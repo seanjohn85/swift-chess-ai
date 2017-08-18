@@ -9,5 +9,9 @@
 import UIKit
 
 class ChessGame: NSObject{
+    var chessBoard: ChessBoard!
     
+    init(viewController: ViewController){
+        chessBoard = ChessBoard.init(viewController: viewController)
+    }
 }

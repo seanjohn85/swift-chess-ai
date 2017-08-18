@@ -12,6 +12,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="chess" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
@@ -359,17 +360,16 @@
                         <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <connections>
-                            <outletCollection property="gestureRecognizers" destination="TCn-ug-iSo" appends="YES" id="BFr-26-h8t"/>
+                            <outletCollection property="gestureRecognizers" destination="lcG-GV-arf" appends="YES" id="1ri-vr-rG3"/>
                         </connections>
                     </view>
                     <connections>
                         <outlet property="checkedLab" destination="gHA-gL-Gbk" id="XM3-20-Rvt"/>
-                        <outlet property="panOutlet" destination="TCn-ug-iSo" id="hNT-t0-5h8"/>
+                        <outlet property="pan" destination="lcG-GV-arf" id="8YL-eQ-aED"/>
                         <outlet property="turnLab" destination="gKZ-Jv-JLN" id="LRQ-12-ohd"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="TCn-ug-iSo"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="lcG-GV-arf"/>
             </objects>
             <point key="canvasLocation" x="138.75" y="135.21126760563379"/>
         </scene>
