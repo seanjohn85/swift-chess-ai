@@ -46,8 +46,41 @@ class ViewController: UIViewController {
             print("so \(sourceOrgin)")
         }
     }
+    //check if move is valid
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         print("end")
+        if piceDragged != nil{
+            let touchLocation = touches.first!.location(in: view)
+            
+            //cast cgfloat to int
+            var x = Int(touchLocation.x)
+            var y = Int(touchLocation.y)
+            
+            x -= ViewController.spaceFromLeftEdge
+            y -= ViewController.spaceFromTopEdge
+            
+            //divide by tile size
+            x = (x / ViewController.tileSize) * ViewController.tileSize
+            y = (y / ViewController.tileSize) * ViewController.tileSize
+            
+            
+            x += ViewController.spaceFromLeftEdge
+            y += ViewController.spaceFromTopEdge
+            
+            destOrigin = CGPoint(x: x, y: y)
+            
+            
+            let sourceIndex = BoardIndex(row: 0, col: 0)
+            let destIndex = BoardIndex(row: 0, col: 0)
+            
+            if myGame.isMoveValid(piece: piceDragged, sourceIndex: sourceIndex, destIndex: destIndex){
+                
+                piceDragged.frame.origin = destOrigin
+            }else{
+                piceDragged.frame.origin = sourceOrgin
+            }
+            
+        }
         
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

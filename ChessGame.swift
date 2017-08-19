@@ -14,4 +14,8 @@ class ChessGame: NSObject{
     init(viewController: ViewController){
         chessBoard = ChessBoard.init(viewController: viewController)
     }
+    
+    func isMoveValid(piece: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
+        return true
+    }
 }
