@@ -37,6 +37,29 @@ class ChessGame: NSObject{
     
     //check if player can move
     func isMoveValid(piece: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
+        
+        guard isMoveOnBoard(sourceIndex: sourceIndex, destIndex : destIndex) else {
+            print("invalid move")
+            return false
+        }
         return true
+    }
+    
+    //reject invalid movement
+    func isMoveOnBoard(sourceIndex: BoardIndex, destIndex : BoardIndex) -> Bool{
+        if case 0..<chessBoard.col = sourceIndex.row{
+            if case 0..<chessBoard.col = sourceIndex.col{
+                if case 0..<chessBoard.col = destIndex.row{
+                    if case 0..<chessBoard.col = destIndex.col{
+                        return true
+                    }
+                }
+            }
+            
+        }
+        return false
+        
+        
+        
     }
 }
