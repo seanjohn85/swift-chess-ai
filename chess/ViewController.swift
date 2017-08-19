@@ -70,8 +70,8 @@ class ViewController: UIViewController {
             destOrigin = CGPoint(x: x, y: y)
             
             
-            let sourceIndex = BoardIndex(row: 0, col: 0)
-            let destIndex = BoardIndex(row: 0, col: 0)
+            let sourceIndex = ChessBoard.indexOf(origin: sourceOrgin)
+            let destIndex = ChessBoard.indexOf(origin: destOrigin)
             
             if myGame.isMoveValid(piece: piceDragged, sourceIndex: sourceIndex, destIndex: destIndex){
                 

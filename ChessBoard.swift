@@ -28,7 +28,7 @@ class ChessBoard: NSObject
         board = Array(repeating: oneRow, count: col)
         
         
-        //loop trough all rows
+        //loop trough all rows and set up statring chess board
         for row in 0..<col{
             
             //loop trough all cols
@@ -129,7 +129,15 @@ class ChessBoard: NSObject
         }
 
     }
+    //static funcs
     
+    static func indexOf(origin: CGPoint) -> BoardIndex{
+        
+        let row = (Int(origin.y) - ViewController.spaceFromTopEdge) / ViewController.tileSize
+        let col = (Int(origin.x) - ViewController.spaceFromLeftEdge) / ViewController.tileSize
+        
+        return BoardIndex(row: row, col: col)
+    }
     
     static func getFrame(forRow row: Int, forCol col: Int) -> CGRect{
         //get the postion of the piece
