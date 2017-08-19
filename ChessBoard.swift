@@ -129,6 +129,38 @@ class ChessBoard: NSObject
         }
 
     }
+    
+    
+    
+    func remove(piece: Piece){
+        //check if the piece is a chess piece
+        if let chessPiece = piece as? UIChessPiece{
+            
+            //remove from the board
+            let indexOfBoard = ChessBoard.indexOf(origin: chessPiece.frame.origin)
+            board[indexOfBoard.row][indexOfBoard.col] = Dummy(frame: chessPiece.frame)
+            
+            //remove from array of chess pieces
+            if let indexInArray  = vc.chessPieces.index(of: chessPiece){
+                vc.chessPieces.remove(at: indexInArray)
+            }
+            
+            //remove from screen
+            chessPiece.removeFromSuperview()
+            
+        }
+        
+    }
+    
+    
+    func place(chessPiece : UIChessPiece, destIndex : BoardIndex, toOrigin: CGPoint){
+        chessPiece.frame.origin = toOrigin
+        board[destIndex.row][destIndex.col] = chessPiece
+        
+    }
+    
+    
+    
     //static funcs
     
     static func indexOf(origin: CGPoint) -> BoardIndex{

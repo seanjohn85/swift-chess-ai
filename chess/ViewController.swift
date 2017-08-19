@@ -75,7 +75,7 @@ class ViewController: UIViewController {
             
             if myGame.isMoveValid(piece: piceDragged, sourceIndex: sourceIndex, destIndex: destIndex){
                 
-                piceDragged.frame.origin = destOrigin
+                myGame.move(piece: piceDragged, sourceIndex: sourceIndex, destIndex: destIndex, toOrigin: destOrigin)
             }else{
                 piceDragged.frame.origin = sourceOrgin
             }
