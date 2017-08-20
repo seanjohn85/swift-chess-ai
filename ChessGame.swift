@@ -50,7 +50,29 @@ class ChessGame: NSObject{
             return false
         }
         
+        return isNormalMoveValid(piece: piece, sourceIndex: sourceIndex, destIndex: destIndex)
+    }
+    func isNormalMoveValid(piece: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
+        guard sourceIndex != destIndex else {
+            return false
+        }
+        guard !(attacking(piece: piece, destIndex: destIndex)) else {
+            return false
+        }
+        
         return true
+    }
+    
+    //if attqcked allied piece
+    func attacking(piece: UIChessPiece, destIndex: BoardIndex) -> Bool{
+        let destinationPiece : Piece = chessBoard.board[destIndex.row][destIndex.col]
+        guard !(destinationPiece is Dummy) else {
+            return false
+        }
+        
+        let destinationChessPiece = destinationPiece as! UIChessPiece
+        
+        return piece.color == destinationChessPiece.color
     }
     
     //reject invalid movement
