@@ -46,5 +46,10 @@ class Pawn: UIChessPiece{
         super.init(coder: aDecoder)!
     }
     
+    
+    func moveOk(source: BoardIndex, dest : BoardIndex) ->Bool{
+        return true
+        
+    }
    
 }

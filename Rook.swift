@@ -44,6 +44,10 @@ class Rook: UIChessPiece{
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
     }
+    func moveOk(source: BoardIndex, dest : BoardIndex) -> Bool{
+        return true
+        
+    }
     
     
 }
