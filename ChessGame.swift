@@ -80,6 +80,9 @@ class ChessGame: NSObject{
     }
     
     func isMoveValid(forPawn piece: Pawn, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
+        if !piece.moveOk(source: sourceIndex, dest: destIndex){
+            return false
+        }
         return true
     }
     

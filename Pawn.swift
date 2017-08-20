@@ -18,6 +18,7 @@ import UIKit
 
 //inherts from the UIChesspiece custom class
 class Pawn: UIChessPiece{
+    var triesToAdvanceBy2 = false
     //constructor to make chess pieces
     init(frame : CGRect, color: UIColor, VC: ViewController){
         super.init(frame : frame)
@@ -48,7 +49,33 @@ class Pawn: UIChessPiece{
     
     
     func moveOk(source: BoardIndex, dest : BoardIndex) ->Bool{
-        return true
+        //check triesToAdvanceBy2
+        if source.col == dest.col{
+            if (source.row == 1 && dest.row == 3 && color == #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)) || (source.row == 6 && dest.row == 4 && color != #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) ){
+                triesToAdvanceBy2 = true
+                return true
+           
+            }
+        }
+        triesToAdvanceBy2 = false
+        
+        //check advance by one
+        var moveFrward = 0
+        
+        if color == #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1){
+            moveFrward = 1
+        }else{
+            moveFrward = -1
+        }
+        
+        
+        if dest.row == source.row + moveFrward{
+            if (dest.col == source.col - 1) || (dest.col == source.col) || (dest.col == source.col + 1){
+                return true
+            }
+            
+        }
+        return false
         
     }
    
