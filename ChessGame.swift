@@ -11,6 +11,8 @@ import UIKit
 class ChessGame: NSObject{
     var chessBoard: ChessBoard!
     
+    var isWhiteTurn = true
+    
     init(viewController: ViewController){
         chessBoard = ChessBoard.init(viewController: viewController)
     }
@@ -42,6 +44,12 @@ class ChessGame: NSObject{
             print("invalid move")
             return false
         }
+        
+        
+        guard usTurnColor(sameAsPiece : piece) else{
+            return false
+        }
+        
         return true
     }
     
@@ -58,8 +66,26 @@ class ChessGame: NSObject{
             
         }
         return false
-        
-        
-        
+ 
+    }
+    
+    //rotate turn
+    func changeTurn(){
+        //oposite of current value
+        isWhiteTurn = !isWhiteTurn
+    }
+    
+    //check is the moved piece is the valid players
+    func usTurnColor(sameAsPiece piece: UIChessPiece) -> Bool{
+        if piece.color == #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1){
+            if !isWhiteTurn{
+                return true
+            }
+        }else{
+            if isWhiteTurn{
+                return true
+            }
+        }
+        return false
     }
 }

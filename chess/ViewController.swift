@@ -76,6 +76,10 @@ class ViewController: UIViewController {
             if myGame.isMoveValid(piece: piceDragged, sourceIndex: sourceIndex, destIndex: destIndex){
                 
                 myGame.move(piece: piceDragged, sourceIndex: sourceIndex, destIndex: destIndex, toOrigin: destOrigin)
+                
+                myGame.changeTurn()
+                updateTurnOnScreen()
+                
             }else{
                 piceDragged.frame.origin = sourceOrgin
             }
@@ -102,6 +106,13 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func updateTurnOnScreen() {
+        turnLab.text = myGame.isWhiteTurn ? "Whites Turn": "Black Turn"
+        turnLab.textColor = myGame.isWhiteTurn ? #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1): #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
     }
 
 
