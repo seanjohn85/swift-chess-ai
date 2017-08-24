@@ -52,6 +52,8 @@ class ChessGame: NSObject{
         
         return isNormalMoveValid(piece: piece, sourceIndex: sourceIndex, destIndex: destIndex)
     }
+    
+    
     func isNormalMoveValid(piece: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
         guard sourceIndex != destIndex else {
             return false
@@ -59,6 +61,7 @@ class ChessGame: NSObject{
         guard !(attacking(piece: piece, destIndex: destIndex)) else {
             return false
         }
+        //detect pice and call piece function
         switch piece {
         case is Pawn:
             return isMoveValid(forPawn: piece as! Pawn, sourceIndex: sourceIndex, destIndex: destIndex)
@@ -79,11 +82,40 @@ class ChessGame: NSObject{
         return true
     }
     
+    //
     func isMoveValid(forPawn piece: Pawn, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
         if !piece.moveOk(source: sourceIndex, dest: destIndex){
             return false
         }
-        return true
+        //no attack
+        if sourceIndex.col == destIndex.col{
+            //advance by 2
+            if piece.triesToAdvanceBy2{
+                var moverForward = 0
+                
+                if piece.color == #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1){
+                    moverForward = 1
+                }else{
+                    moverForward = -1
+                }
+                
+                if chessBoard.board[destIndex.row][destIndex.col] is Dummy && chessBoard.board[destIndex.row - moverForward][destIndex.col] is Dummy{
+                    return true
+                }
+            }
+            //advance by 1
+            else{
+                if chessBoard.board[destIndex.row][destIndex.col] is Dummy {
+                    return true
+                }
+            }
+        }//attack
+        else{
+            if !(chessBoard.board[destIndex.row][destIndex.col] is Dummy) {
+                return true
+            }
+        }
+        return false
     }
     
     func isMoveValid(forRookQueenBishop piece: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
@@ -96,7 +128,7 @@ class ChessGame: NSObject{
     
     
     
-    //if attqcked allied piece
+    //if attacked allied piece
     func attacking(piece: UIChessPiece, destIndex: BoardIndex) -> Bool{
         let destinationPiece : Piece = chessBoard.board[destIndex.row][destIndex.col]
         guard !(destinationPiece is Dummy) else {
