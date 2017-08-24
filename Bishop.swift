@@ -46,7 +46,23 @@ class Bishop: UIChessPiece{
     }
     
     func moveOk(source: BoardIndex, dest : BoardIndex) -> Bool{
-        return true
+        //ok moves
+        /*
+         -1 -1
+         1 1
+         1 -1
+         -1 1
+ 
+         -2 -2
+         2 2
+         2 -2
+         -2 2
+         */
+        
+        if abs(dest.row - source.row) == abs(dest.col - source.col){
+            return true
+        }
+        return false
         
     }
 }

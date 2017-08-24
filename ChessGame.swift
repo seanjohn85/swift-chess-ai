@@ -119,6 +119,23 @@ class ChessGame: NSObject{
     }
     
     func isMoveValid(forRookQueenBishop piece: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
+        
+        
+        switch piece{
+        case is Rook:
+            if !(piece as! Rook).moveOk(source: sourceIndex, dest: destIndex){
+                return false
+            }
+            
+        case is Bishop:
+            if !(piece as! Bishop).moveOk(source: sourceIndex, dest: destIndex){
+                return false
+            }
+        default:
+            if !(piece as! Queen).moveOk(source: sourceIndex, dest: destIndex){
+                return false
+            }
+        }
         return true
     }
     
