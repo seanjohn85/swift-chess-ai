@@ -45,7 +45,17 @@ class King: UIChessPiece{
         super.init(coder: aDecoder)!
     }
     func moveOk(source: BoardIndex, dest : BoardIndex) -> Bool{
-        return true
+        let diffenceInRows = abs(dest.row - source.row)
+        let diffenceInCols = abs(dest.col - source.col)
+        
+        if case 0...1 = diffenceInRows{
+            if case 0...1 = diffenceInCols{
+                return true
+            }
+            
+        }
+        
+        return false
         
     }
     

@@ -45,7 +45,11 @@ class Rook: UIChessPiece{
         super.init(coder: aDecoder)!
     }
     func moveOk(source: BoardIndex, dest : BoardIndex) -> Bool{
-        return true
+        
+        if source.row == dest.row || source.col == dest.col{
+            return true
+        }
+        return false
         
     }
     

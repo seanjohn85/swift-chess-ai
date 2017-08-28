@@ -136,14 +136,86 @@ class ChessGame: NSObject{
                 return false
             }
         }
+        
+        
+        var increaseRow = 0
+        //queen or bishop
+        
+        //rook or queen
+        
+      
+        var increaseCol = 0
+        
+        if destIndex.row - sourceIndex.row != 0{
+            increaseRow = (destIndex.row - sourceIndex.row) / abs(destIndex.row - sourceIndex.row)
+        }
+        
+        if destIndex.col - sourceIndex.col != 0{
+            increaseCol = (destIndex.col - sourceIndex.col) / abs(destIndex.col - sourceIndex.col)
+        }
+        
+        
+        var nextRow = sourceIndex.row + increaseRow
+        var nextCol = sourceIndex.col + increaseCol
+        
+        while nextRow != destIndex.row || nextCol != destIndex.col{
+            if !(chessBoard.board[nextRow][nextCol] is Dummy){
+                return false
+            }
+            nextRow += increaseRow
+            nextCol += increaseCol
+        }
+        
+        
         return true
     }
     
     func isMoveValid(forKing piece: King, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
+        if !(piece.moveOk(source: sourceIndex, dest: destIndex)){
+            return false
+        }
+        if oppKing(nearKing : piece, destIndex : destIndex){
+            return false
+        }
         return true
     }
     
-    
+    //checks if the kings are to close
+    func oppKing(nearKing moving: King, destIndex: BoardIndex)-> Bool{
+      
+        var oppKing : King
+        
+        if moving == chessBoard.whiteKing{
+            oppKing = chessBoard.blackKing
+            
+        }else{
+            oppKing = chessBoard.whiteKing
+        }
+        
+        
+        var oppKingIndex : BoardIndex!
+        for row in 0..<chessBoard.col {
+            for col in 0..<chessBoard.col{
+                if let aKing = chessBoard.board[row][col] as? King, aKing == oppKing{
+                    oppKingIndex = BoardIndex(row: row, col: col)
+                }
+            }
+        }
+        
+        //compute absolute diffence betwen kings
+        let differenceInRows = abs(oppKingIndex.row - destIndex.row)
+        let differenceInCols = abs(oppKingIndex.col - destIndex.col)
+        
+        //if to close move is invalid
+        if case 0...1 = differenceInRows{
+            if case 0...1 = differenceInCols{
+                return true
+            }
+        }
+        
+        
+        return false
+    }
     
     //if attacked allied piece
     func attacking(piece: UIChessPiece, destIndex: BoardIndex) -> Bool{

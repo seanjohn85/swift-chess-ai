@@ -46,7 +46,15 @@ class Knight: UIChessPiece{
     }
     
     func moveOk(source: BoardIndex, dest : BoardIndex) ->Bool{
-        return true
+        let validMoves = [(source.row - 1, source.col + 2),(source.row - 2, source.col + 1),(source.row - 2, source.col - 1),(source.row - 1, source.col - 2),(source.row + 1, source.col - 2),(source.row + 2, source.col - 1),(source.row + 2, source.col + 1),(source.row + 1, source.col + 2)]
+        
+        for (validRow, validCol) in validMoves{
+            if dest.row == validRow && dest.col == validCol{
+                return true
+            }
+        }
+        
+        return false
         
     }
 }
