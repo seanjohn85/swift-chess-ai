@@ -28,6 +28,9 @@ class ViewController: UIViewController {
     var myGame : ChessGame!
     var chessPieces : [UIChessPiece]! = []
     
+    var isAgainstAI : Bool!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //instanate chess game
@@ -76,7 +79,12 @@ class ViewController: UIViewController {
             if myGame.isMoveValid(piece: piceDragged, sourceIndex: sourceIndex, destIndex: destIndex){
                 
                 myGame.move(piece: piceDragged, sourceIndex: sourceIndex, destIndex: destIndex, toOrigin: destOrigin)
+                //check is game over
                 
+                if myGame.isGameOver(){
+                    displayWinner()
+                    return
+                }
                 myGame.changeTurn()
                 updateTurnOnScreen()
                 
@@ -85,6 +93,37 @@ class ViewController: UIViewController {
             }
             
         }
+        
+    }
+    
+    
+    
+    func displayWinner(){
+        let alert = UIAlertController(title: "Game Over", message: "\(myGame.winner!) wins", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "Main Menu", style: UIAlertActionStyle.default, handler: { action in
+            self.performSegue(withIdentifier: "exit", sender: self)
+        }))
+        
+        //rematch
+        alert.addAction(UIAlertAction(title: "Rematch", style: UIAlertActionStyle.default, handler: { action in
+            //clear screen, chess pieces and board matrix
+            for piece in self.chessPieces{
+                self.myGame.chessBoard.remove(piece: piece)
+            }
+            
+            //create a new game
+            self.myGame = ChessGame(viewController: self)
+            
+            //update labels
+            self.updateTurnOnScreen()
+            self.checkedLab.text =  nil
+            
+            
+            
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
         
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

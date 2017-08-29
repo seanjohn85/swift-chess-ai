@@ -21,7 +21,22 @@ class StartScreenViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destVC =  segue.destination as! ViewController
+        
+        
+        if segue.identifier == "singlePlayer" {
+            destVC.isAgainstAI = true
+        }else{
+            destVC.isAgainstAI = false
+        }
+        
+    }
 
+    @IBAction func unwind(seg: UIStoryboardSegue){
+        
+    }
  
 
 }

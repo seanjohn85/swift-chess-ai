@@ -11,6 +11,8 @@ import UIKit
 class ChessGame: NSObject{
     var chessBoard: ChessBoard!
     
+    var winner: String?
+    
     var isWhiteTurn = true
     
     init(viewController: ViewController){
@@ -262,6 +264,31 @@ class ChessGame: NSObject{
                 return true
             }
         }
+        return false
+    }
+    
+    
+    //game over
+    
+    
+    func isGameOver() -> Bool{
+        if didSomebodyWin(){
+            return true
+        }
+        return false
+    }
+    
+    func didSomebodyWin() -> Bool{
+        if !(chessBoard.vc.chessPieces.contains(chessBoard.whiteKing)){
+            winner = "Black"
+            return true
+        }
+        
+        if !(chessBoard.vc.chessPieces.contains(chessBoard.blackKing)){
+            winner = "White"
+            return true
+        }
+        
         return false
     }
 }

@@ -36,6 +36,9 @@
                                 <state key="normal" title="Single Player">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="singlePlayer" id="Wqq-Xc-vxi"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJn-6v-wCC">
                                 <rect key="frame" x="16" y="266" width="288" height="61"/>
@@ -45,6 +48,9 @@
                                 <state key="normal" title="Multi Player">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="multiPlayer" id="DCs-mR-6kw"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -411,12 +417,17 @@
                         <outlet property="checkedLab" destination="gHA-gL-Gbk" id="XM3-20-Rvt"/>
                         <outlet property="pan" destination="lcG-GV-arf" id="8YL-eQ-aED"/>
                         <outlet property="turnLab" destination="gKZ-Jv-JLN" id="LRQ-12-ohd"/>
+                        <segue destination="hxA-hr-9UO" kind="unwind" identifier="exit" unwindAction="unWindWithSeg:" id="bhz-01-M9v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="hxA-hr-9UO" userLabel="Exit" sceneMemberID="exit"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="lcG-GV-arf"/>
             </objects>
             <point key="canvasLocation" x="138.75" y="135.21126760563379"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Wqq-Xc-vxi"/>
+    </inferredMetricsTieBreakers>
 </document>
