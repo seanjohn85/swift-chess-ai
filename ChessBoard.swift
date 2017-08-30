@@ -18,6 +18,21 @@ class ChessBoard: NSObject
     var whiteKing : King!
     var blackKing : King!
     
+    
+    
+    func getIndex(piece: UIChessPiece) -> BoardIndex?{
+        for row in 0..<col{
+            for cols in 0..<col{
+                let chessPiece = board[row][cols] as? UIChessPiece
+                if piece == chessPiece{
+                    return BoardIndex(row: row, col: cols)
+                    
+                }
+            }
+        }
+        return nil
+    }
+    
     //constructor
     init(viewController : ViewController) {
         //set the view

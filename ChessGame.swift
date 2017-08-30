@@ -19,6 +19,20 @@ class ChessGame: NSObject{
         chessBoard = ChessBoard.init(viewController: viewController)
     }
     
+    func makeAIMove(){
+        
+    }
+    func getPawnToBePromoted() -> Pawn?{
+        for chessPiece in chessBoard.vc.chessPieces{
+            if let pawn = chessPiece as? Pawn{
+                let pawnIndex = ChessBoard.indexOf(origin: pawn.frame.origin)
+                if pawnIndex.row == 0 || pawnIndex.row == 7{
+                    return pawn
+                }
+            }
+        }
+        return nil
+    }
     func move(piece chessPieceToMove: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex, toOrigin destOrigin: CGPoint){
         
         //4 steps algrothim
@@ -268,6 +282,35 @@ class ChessGame: NSObject{
     }
     
     
+    //check mate
+    func getPlayerChecked() -> String?{
+        guard let whiteKingIndex = chessBoard.getIndex(piece: chessBoard.whiteKing) else{
+            return nil
+        }
+        guard let blackKingIndex = chessBoard.getIndex(piece: chessBoard.blackKing) else{
+            return nil
+        }
+        
+        for row in 0..<chessBoard.col{
+            for col in 0..<chessBoard.col{
+                if let chessPiece = chessBoard.board[row][col] as? UIChessPiece{
+                    let chessPieceIndex = BoardIndex(row: row, col: col)
+                    if chessPiece.color == #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1){
+                        if isNormalMoveValid(piece: chessPiece, sourceIndex: chessPieceIndex, destIndex: whiteKingIndex){
+                            return "White"
+                            
+                        }
+                    }else{
+                        if isNormalMoveValid(piece: chessPiece, sourceIndex: chessPieceIndex, destIndex: blackKingIndex){
+                            return "Black"
+                            
+                        }
+                    }
+                }
+            }
+        }
+        return nil
+    }
     //game over
     
     

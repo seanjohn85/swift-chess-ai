@@ -85,8 +85,13 @@ class ViewController: UIViewController {
                     displayWinner()
                     return
                 }
-                myGame.changeTurn()
-                updateTurnOnScreen()
+                
+                if shouldPromotePawn(){
+                    promptForPwnPromotion()
+                }else{
+                    resumeGame()
+                }
+                
                 
             }else{
                 piceDragged.frame.origin = sourceOrgin
@@ -95,8 +100,52 @@ class ViewController: UIViewController {
         }
         
     }
+    func resumeGame(){
+        //display checks is any
+        displayCheck()
+        //change the turn
+        myGame.changeTurn()
+        //display turn
+        updateTurnOnScreen()
+        //ai move if needed
+        if isAgainstAI && !myGame.isWhiteTurn{
+            myGame.makeAIMove()
+            
+            if myGame.isGameOver(){
+                displayWinner()
+                return
+            }
+            
+            if shouldPromotePawn(){
+                promote(pawn: myGame.getPawnToBePromoted()!, into: "Quenn")
+            }
+            
+            displayCheck()
+            myGame.changeTurn()
+            updateTurnOnScreen()
+        }
+    }
     
+    func promote(pawn: Pawn, into: String){
+        
+    }
     
+    func promptForPwnPromotion(){
+        
+    }
+    func shouldPromotePawn() -> Bool{
+        return (myGame.getPawnToBePromoted() != nil)
+    }
+    
+    func displayCheck(){
+        let playerChecked = myGame.getPlayerChecked()
+        
+        if playerChecked != nil{
+            checkedLab.text = playerChecked! + " is in check"
+        }else{
+            checkedLab.text = nil
+        }
+    }
     
     func displayWinner(){
         let alert = UIAlertController(title: "Game Over", message: "\(myGame.winner!) wins", preferredStyle: UIAlertControllerStyle.alert)
