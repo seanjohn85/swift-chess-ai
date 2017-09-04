@@ -107,7 +107,7 @@ class ChessGame: NSObject{
             }
             
             //simulate move on board matrix
-
+            
             let pieceTaken = chessBoard.board[ranDestIndex.row][ranDestIndex.col]
             
             chessBoard.board[ranDestIndex.row][ranDestIndex.col] = chessBoard.board[sourceIndex.row][sourceIndex.col]
@@ -141,11 +141,69 @@ class ChessGame: NSObject{
         }
     }
     
+    func getScoreForLocation(offPiece aChessPiece: UIChessPiece) -> Int{
+        
+        var locScore = 0
+        
+        guard let source = chessBoard.getIndex(piece: aChessPiece) else{
+            return 0
+        }
+        for row in 0..<chessBoard.col{
+            for c in 0..<chessBoard.col{
+                if chessBoard.board[row][c] is UIChessPiece{
+                    let dest = BoardIndex(row: row, col: c)
+                    if isNormalMoveValid(piece: aChessPiece, sourceIndex: source, destIndex: dest, canAttackAllies: true){
+                        locScore += 1
+                    }
+                }
+            }
+        }
+        
+        return  locScore
+        
+    }
+    
     func didBestMoveForAI(forScoreOver limit: Int) -> Bool{
         return false
     }
     
     func didAttackUndefendedPiece() -> Bool{
+        
+        loopThatTraversesChessPieces: for attackingPiece in chessBoard.vc.chessPieces{
+            guard attackingPiece.color == #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) else{
+                continue loopThatTraversesChessPieces
+            }
+            
+            guard let source = chessBoard.getIndex(piece: attackingPiece) else{
+                continue loopThatTraversesChessPieces
+            }
+            
+            let possibleDest = getArrayOfPossibleMoves(forPice: attackingPiece)
+            
+            searchForUndefendedWhite: for attackedIndex in possibleDest{
+                
+                guard  let attackedPice = chessBoard.board[attackedIndex.row][attackedIndex.col] as? UIChessPiece else {
+                    continue searchForUndefendedWhite
+                }
+                for row in 0..<chessBoard.col{
+                    for c in 0..<chessBoard.col{
+                        guard let defendingPiece = chessBoard.board[row][c] as? UIChessPiece, defendingPiece.color == #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1) else {
+                            continue
+                        }
+                        let defendingIndex = BoardIndex(row: row, col: c)
+                        
+                        if isNormalMoveValid(piece: defendingPiece, sourceIndex: defendingIndex, destIndex: attackedIndex, canAttackAllies: true){
+                            continue searchForUndefendedWhite
+                        }
+                        
+                    }
+                }
+                
+                move(piece: attackingPiece, sourceIndex: source, destIndex: attackedIndex, toOrigin: attackingPiece.frame.origin)
+                return true
+            }
+        }
+        
         
         return false
     }
@@ -197,13 +255,16 @@ class ChessGame: NSObject{
     }
     
     
-    func isNormalMoveValid(piece: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex) -> Bool{
+    func isNormalMoveValid(piece: UIChessPiece, sourceIndex: BoardIndex, destIndex: BoardIndex, canAttackAllies : Bool = false) -> Bool{
         guard sourceIndex != destIndex else {
             return false
         }
-        guard !(attacking(piece: piece, destIndex: destIndex)) else {
-            return false
+        if !canAttackAllies{
+            guard !(attacking(piece: piece, destIndex: destIndex)) else {
+                return false
+            }
         }
+        
         //detect pice and call piece function
         switch piece {
         case is Pawn:
@@ -246,7 +307,7 @@ class ChessGame: NSObject{
                     return true
                 }
             }
-            //advance by 1
+                //advance by 1
             else{
                 if chessBoard.board[destIndex.row][destIndex.col] is Dummy {
                     return true
@@ -286,7 +347,7 @@ class ChessGame: NSObject{
         
         //rook or queen
         
-      
+        
         var increaseCol = 0
         
         if destIndex.row - sourceIndex.row != 0{
@@ -325,7 +386,7 @@ class ChessGame: NSObject{
     
     //checks if the kings are to close
     func oppKing(nearKing moving: King, destIndex: BoardIndex)-> Bool{
-      
+        
         var oppKing : King
         
         if moving == chessBoard.whiteKing{
@@ -385,7 +446,7 @@ class ChessGame: NSObject{
             
         }
         return false
- 
+        
     }
     
     //rotate turn
