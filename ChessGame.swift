@@ -68,6 +68,7 @@ class ChessGame: NSObject{
         //attack undefened white pices, if there is no check on the black king
         if getPlayerChecked() == nil{
             if didAttackUndefendedPiece(){
+                
                 return
             }
         }
@@ -135,6 +136,12 @@ class ChessGame: NSObject{
                 return
             }
             
+            if numOfTrysToExcapeCheck == 0 || numOfTrysToExcapeCheck == 1000{
+                print("AI simple random move")
+            }else{
+                print("AI rand move to excape check")
+            }
+            
             move(piece: pieceToMove, sourceIndex: sourceIndex, destIndex: ranDestIndex, toOrigin: destOrigin)
             
             moveFound = true
@@ -164,6 +171,68 @@ class ChessGame: NSObject{
     }
     
     func didBestMoveForAI(forScoreOver limit: Int) -> Bool{
+        
+        guard getPlayerChecked() != "Black" else {
+            return false
+        }
+        
+        var bestNetScore = -10
+        
+        var bestPiece : UIChessPiece!
+        
+        var bestDest: BoardIndex!
+        var bestSource : BoardIndex!
+        var bestOrigin : CGPoint!
+        
+        for aChessPiece in chessBoard.vc.chessPieces{
+            guard aChessPiece.color == #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) else{
+                continue
+            }
+            
+            guard let source = chessBoard.getIndex(piece: aChessPiece) else{
+                continue
+            }
+            
+            let actualLocationScore = getScoreForLocation(offPiece: aChessPiece)
+            
+            let possibleDestinations = getArrayOfPossibleMoves(forPice: aChessPiece)
+            
+            for dest in possibleDestinations{
+                
+                var nestLocScore = 0
+                
+                //simulate move
+                let piceTaken = chessBoard.board[dest.row][dest.col]
+                
+                chessBoard.board[dest.row][dest.col] = chessBoard.board[source.row][source.col]
+                
+                chessBoard.board[source.row][source.col] = Dummy()
+                
+                nestLocScore = getScoreForLocation(offPiece: aChessPiece)
+                
+                let netScore = nestLocScore - actualLocationScore
+                
+                if netScore > bestNetScore{
+                    bestNetScore = netScore
+                    bestPiece = aChessPiece
+                    bestDest = dest
+                    bestSource = source
+                    bestOrigin = ChessBoard.getFrame(forRow: bestDest.row, forCol: bestDest.col).origin
+                }
+                
+                //undo the move
+                
+                chessBoard.board[source.row][source.col] = chessBoard.board[dest.row][dest.col]
+                chessBoard.board[dest.row][dest.col] = piceTaken
+                
+            }
+        }
+        
+        print("ai                                                                                                                                                                                                                                                                                                                                                           Best net score: \(bestNetScore)")
+        if bestNetScore > limit{
+            move(piece: bestPiece, sourceIndex: bestSource, destIndex: bestDest, toOrigin: bestOrigin)
+            return true
+        }
         return false
     }
     

@@ -111,6 +111,8 @@ class ViewController: UIViewController {
         if isAgainstAI && !myGame.isWhiteTurn{
             myGame.makeAIMove()
             
+            print("AI .--------------")
+            
             if myGame.isGameOver(){
                 displayWinner()
                 return
